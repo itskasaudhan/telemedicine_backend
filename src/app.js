@@ -2,6 +2,8 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const pino = require('pino');
+const errorHandler = require('./middleware/errorHandler');
+const authRoutes = require('./modules/auth/auth.routes');
 const pinoHttp = require('pino-http');
 
 const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
@@ -13,7 +15,9 @@ app.use(express.json({ limit: '100kb' }));
 app.use(pinoHttp({ logger }));
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
+app.use('/auth', authRoutes);
 
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));
+app.use(errorHandler);
 
 module.exports = { app, logger };
