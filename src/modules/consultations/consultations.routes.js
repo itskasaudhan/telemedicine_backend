@@ -22,4 +22,11 @@ router.get('/:id', authenticate, wrap(async (req, res) => {
   res.json(await service.getById(req.user, req.params.id));
 }));
 
+router.patch('/:id/start', authenticate, authorize('doctor'), wrap(async (req, res) => {
+  res.json(await service.transition({ doctorId: req.user.id, id: req.params.id, action: 'start', ip: req.ip }));
+}));
+
+router.patch('/:id/complete', authenticate, authorize('doctor'), wrap(async (req, res) => {
+  res.json(await service.transition({ doctorId: req.user.id, id: req.params.id, action: 'complete', ip: req.ip }));
+}));
 module.exports = router;

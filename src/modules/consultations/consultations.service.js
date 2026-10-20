@@ -71,5 +71,22 @@ async function getById(user, id) {
   }
   return c;
 }
+const ALLOWED = {
+  start: { from: 'confirmed', to: 'in_progress' },
+  complete: { from: 'in_progress', to: 'completed' },
+};
 
-module.exports = { book, getById };
+async function transition({ doctorId, id, action, ip }) {
+  const t = ALLOWED[action];
+  // ek hi query me check + update: sahi doctor, sahi purana status, tabhi badlo
+  const { rows } = await pool.query(
+    `UPDATE consultations SET status = $1, updated_at = NOW()
+      WHERE id = $2 AND doctor_id = $3 AND status = $4 RETURNING *`,
+    [t.to, id, doctorId, t.from]
+  );
+  if (!rows[0]) throw new AppError(409, `Cannot ${action}: consultation not found or not in '${t.from}' state`);
+  await audit.log({ actorId: doctorId, action: `consultation.${action}`, entity: 'consultation', entityId: id, ip });
+  return rows[0];
+}
+
+module.exports = { book, getById, transition };
