@@ -12,7 +12,7 @@ const paymentRoutes = require('./modules/payments/payments.routes');
 const prescriptionRoutes = require('./modules/prescriptions/prescriptions.routes');
 const adminRoutes = require('./modules/admin/admin.routes');
 
-const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
+const logger = pino({ level: process.env.NODE_ENV === 'test' ? 'silent' : (process.env.LOG_LEVEL || 'info') });
 const app = express();
 
 app.use(helmet());

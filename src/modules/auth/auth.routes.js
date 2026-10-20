@@ -6,7 +6,13 @@ const schemas = require('./auth.schemas');
 const service = require('./auth.service');
 
 // strict limit on auth endpoints: 10 requests per minute per IP (brute-force protection)
-const authLimiter = rateLimit({ windowMs: 60 * 1000, limit: 10, standardHeaders: true, legacyHeaders: false });
+const authLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  limit: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: () => process.env.NODE_ENV === 'test', // tests me limit off
+});
 
 // Express 5 forwards async errors automatically; wrap anyway for safety with Express 4
 const wrap = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
