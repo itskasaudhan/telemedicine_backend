@@ -4,6 +4,7 @@ const { app, logger } = require('./app');
 const server = app.listen(config.PORT, () => {
   logger.info(`Server listening on port ${config.PORT}`);
 });
+require('./jobs/holdExpiry').start(logger);
 
 function shutdown(signal) {
   logger.info(`${signal} received, shutting down`);
