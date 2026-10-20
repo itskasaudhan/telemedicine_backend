@@ -10,6 +10,7 @@ const availabilityRoutes = require('./modules/availability/availability.routes')
 const consultationRoutes = require('./modules/consultations/consultations.routes');
 const paymentRoutes = require('./modules/payments/payments.routes');
 const prescriptionRoutes = require('./modules/prescriptions/prescriptions.routes');
+const adminRoutes = require('./modules/admin/admin.routes');
 
 const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
 const app = express();
@@ -26,6 +27,7 @@ app.use('/availability', availabilityRoutes);
 app.use('/consultations', consultationRoutes);
 app.use('/payments', paymentRoutes);
 app.use('/prescriptions', prescriptionRoutes);
+app.use('/admin', adminRoutes);
 
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));
 app.use(errorHandler);
