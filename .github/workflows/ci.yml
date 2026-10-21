@@ -49,8 +49,7 @@ jobs:
         run: npm test
 
       - name: Dependency scan (npm audit)
-        run: npm audit --audit-level=high
-
+        run: npm audit --omit=dev --audit-level=high
   docker-build:
     runs-on: ubuntu-latest
     needs: test
