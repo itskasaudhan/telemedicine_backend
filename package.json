@@ -4,18 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "start": "node src/server.js",
-  "dev": "nodemon src/server.js",
-  "migrate": "node src/db/migrate.js",
- "test": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js --runInBand",
-  "lint": "eslint src",
-  "seed:admin": "node src/db/seedAdmin.js"
-},
-"jest": {
-  "testEnvironment": "node",
-  "setupFiles": ["./tests/setup.js"]
-},
-
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "migrate": "node src/db/migrate.js",
+    "test": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js --runInBand",
+    "lint": "eslint src",
+    "seed:admin": "node src/db/seedAdmin.js"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFiles": [
+      "./tests/setup.js"
+    ]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -30,7 +31,7 @@
     "helmet": "^8.3.0",
     "ioredis": "^6.0.0",
     "jsonwebtoken": "^9.0.3",
-    "otplib": "^13.5.0",
+    "otplib": "^12.0.1",
     "pg": "^8.23.1",
     "pino": "^10.4.0",
     "pino-http": "^11.0.0",
